@@ -9,6 +9,7 @@ This package uses the [uv](https://docs.astral.sh/uv/) package manager.
 ```bash
 # initial setup
 uv venv
+source .venv/bin/activate
 uv sync
 ```
 
