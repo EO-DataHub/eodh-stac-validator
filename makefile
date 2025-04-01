@@ -11,6 +11,10 @@ MAKEFLAGS += --no-print-directory
 run-dev:
 	fastapi dev main.py --port=$(port)
 
+.PHONY: test
+test:
+	pytest .
+
 .PHONY: requirements
 requirements:
 	uv export --no-dev -q -o requirements.txt
