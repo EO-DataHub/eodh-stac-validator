@@ -8,9 +8,9 @@ from stac_check.lint import Linter
 app = FastAPI()
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+@app.get("/health")
+def get_health():
+    return {"status": "healthy"}
 
 class Payload(BaseModel):
     content: object
