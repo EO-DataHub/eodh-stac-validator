@@ -3,9 +3,7 @@ on:
   workflow_call:
   push:
     tags:
-      - v[0-9]+*
-    branches:
-      - "**"
+      - v\d*
 
 jobs:
   pre-commit-preparation:
