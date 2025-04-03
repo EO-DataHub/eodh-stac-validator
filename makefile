@@ -13,7 +13,7 @@ run-dev:
 
 .PHONY: test
 test:
-	pytest .
+	python -m pytest -v .
 
 .PHONY: requirements
 requirements:

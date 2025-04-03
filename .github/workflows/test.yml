@@ -19,7 +19,6 @@ jobs:
           cache: "pip"
           cache-dependency-path: |
             requirements.txt
-            requirements-dev.txt
 
       - name: Install dependencies
         run: |
@@ -28,4 +27,4 @@ jobs:
           pip install pytest
 
       - name: Run tests
-        run: pytest -vv
+        run: python -m pytest -v .
