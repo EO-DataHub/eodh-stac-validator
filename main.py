@@ -35,7 +35,8 @@ def validate_stac(payload: Payload):
         return { 
             "status": "success", 
             "message": "Valid STAC", 
-            "content": warnings 
+            "content": warnings,
+            "type": linter.asset_type
         }, 200
 
     except Exception as e:
