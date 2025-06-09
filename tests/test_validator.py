@@ -1,6 +1,9 @@
-from fastapi.testclient import TestClient
 from unittest import TestCase
+
+from fastapi.testclient import TestClient
+
 from main import app
+
 
 class ValidatorTestCase(TestCase):
     def setUp(self):
@@ -9,31 +12,24 @@ class ValidatorTestCase(TestCase):
     def test_validate_success(self):
         payload = {
             "content": {
-            "id": "example-collection",
-            "type": "Collection",
-            "stac_version": "1.0.0",
-            "summaries": {
-                "eo:bands": ["B4", "B3", "B2"]
-            },
-            "extent": {
-                "spatial": {
-                "bbox": [[10.0, 20.0, 10.0, 20.0]]
+                "id": "example-collection",
+                "type": "Collection",
+                "stac_version": "1.0.0",
+                "summaries": {"eo:bands": ["B4", "B3", "B2"]},
+                "extent": {
+                    "spatial": {"bbox": [[10.0, 20.0, 10.0, 20.0]]},
+                    "temporal": {"interval": [["2023-01-01T00:00:00Z", None]]},
                 },
-                "temporal": {
-                "interval": [["2023-01-01T00:00:00Z", None]]
-                }
-            },
-            "links": [
+                "links": [
                     {
-                "rel": "self",
-                "href": "https://example.com/collections/example-collection",
-                "type": "application/json",
-                "title": "Self link to this STAC Collection"
-                }
-
-            ],
-            "description": "Example collection",
-            "license": "CC-BY-4.0"
+                        "rel": "self",
+                        "href": "https://example.com/collections/example-collection",
+                        "type": "application/json",
+                        "title": "Self link to this STAC Collection",
+                    }
+                ],
+                "description": "Example collection",
+                "license": "CC-BY-4.0",
             }
         }
 
@@ -47,28 +43,24 @@ class ValidatorTestCase(TestCase):
     def test_validate_failure(self):
         payload = {
             "content": {
-            "id": "example-collection",
-            "type": "Collection",
-            "stac_version": "1.0.0",
-            "extent": {
-                "spatial": {
-                "bbox": [[10.0, 20.0, 10.0, 20.0]]
+                "id": "example-collection",
+                "type": "Collection",
+                "stac_version": "1.0.0",
+                "summaries": {"eo:bands": ["B4", "B3", "B2"]},
+                "extent": {
+                    # missing spatial field - should fail test
+                    "temporal": {"interval": [["2023-01-01T00:00:00Z", None]]},
                 },
-                "temporal": {
-                "interval": [["2023-01-01T00:00:00Z", None]]
-                }
-            },
-            "links": [
+                "links": [
                     {
-                "rel": "self",
-                "href": "https://example.com/collections/example-collection",
-                "type": "application/json",
-                "title": "Self link to this STAC Collection"
-                }
-
-            ],
-            "description": "Example collection",
-            "license": "CC-BY-4.0"
+                        "rel": "self",
+                        "href": "https://example.com/collections/example-collection",
+                        "type": "application/json",
+                        "title": "Self link to this STAC Collection",
+                    }
+                ],
+                "description": "Example collection",
+                "license": "CC-BY-4.0",
             }
         }
 
