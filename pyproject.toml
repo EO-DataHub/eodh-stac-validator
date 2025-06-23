@@ -7,6 +7,7 @@ requires-python = ">=3.10"
 dependencies = [
     "fastapi[standard]>=0.115.12",
     "stac-check>=1.11.0",
+    "urllib3==2.5.0",
 ]
 
 [project.optional-dependencies]
