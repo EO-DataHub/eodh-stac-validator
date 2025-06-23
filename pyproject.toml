@@ -8,6 +8,7 @@ dependencies = [
     "fastapi[standard]>=0.115.12",
     "stac-check>=1.11.0",
     "urllib3==2.5.0",
+    "requests==2.32.4"
 ]
 
 [project.optional-dependencies]
