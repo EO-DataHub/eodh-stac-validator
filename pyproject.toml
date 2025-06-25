@@ -1,7 +1,7 @@
 [project]
 name = "eodh-stac-validator"
 version = "0.1.0"
-description = "Add your description here"
+description = "A validator API for STAC files, returning errors and best practice suggestions."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
