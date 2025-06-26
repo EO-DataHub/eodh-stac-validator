@@ -22,13 +22,21 @@ def validate_stac(payload: Payload):
         linter = Linter(data, assets=True)
         best_practices = linter.create_best_practices_dict()
 
+        error = linter.error_msg
+        failed_schema  = linter.failed_schema
+
+        error_msg = f"Error: {error}"
+
+        if failed_schema:
+            error_msg = f"{error_msg}: Failed schema: {failed_schema}"
+
         warnings = [i for j, i in best_practices.items() if i]
 
         if not linter.valid_stac:
             return {
                 "status": "error",
                 "message": "Errors found when validating STAC",
-                "content": warnings,
+                "content": error_msg,
             }, 400
 
         return {
