@@ -23,7 +23,7 @@ def validate_stac(payload: Payload):
         best_practices = linter.create_best_practices_dict()
 
         error = linter.error_msg
-        failed_schema  = linter.failed_schema
+        failed_schema = linter.failed_schema
 
         error_msg = f"Error: {error}"
 
