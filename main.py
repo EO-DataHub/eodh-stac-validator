@@ -28,7 +28,7 @@ def validate_stac(payload: Payload):
         error_msg = f"Error: {error}"
 
         if failed_schema:
-            error_msg = f"{error_msg}: Failed schema: {failed_schema}"
+            error_msg = [[f"{error_msg}: Failed schema: {failed_schema}"]]
 
         warnings = [i for j, i in best_practices.items() if i]
 
