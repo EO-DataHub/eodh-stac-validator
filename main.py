@@ -1,3 +1,5 @@
+from typing import Any
+
 from fastapi import FastAPI
 from pydantic import BaseModel
 from stac_check.lint import Linter
@@ -6,16 +8,16 @@ app = FastAPI()
 
 
 @app.get("/health")
-def get_health():
+def get_health() -> dict[str, str]:
     return {"status": "healthy"}
 
 
 class Payload(BaseModel):
-    content: object
+    content: dict[str, Any]
 
 
 @app.post("/validate-stac")
-def validate_stac(payload: Payload):
+def validate_stac(payload: Payload) -> tuple[dict[str, Any], int]:
     data = payload.content
 
     try:

@@ -8,17 +8,26 @@ This package uses the [uv](https://docs.astral.sh/uv/) package manager.
 
 ```bash
 # initial setup
-uv venv
-source .venv/bin/activate
-uv sync
+make setup
 ```
 
 ```bash
 # run local dev instance
-run dev
+make run-dev
 ```
 
 ```bash
-# run unit tests
+# run unit tests (watch mode)
 make test
+
+# run unit tests (once)
+make testonce
+```
+
+```bash
+# run linting and type checks
+make check
+
+# auto-format code
+make format
 ```
