@@ -3,15 +3,56 @@ name = "eodh-stac-validator"
 version = "0.1.0"
 description = "A validator API for STAC files, returning errors and best practice suggestions."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.13,<3.14"
 dependencies = [
     "fastapi[standard]",
     "stac-check",
     "urllib3",
-    "requests"
+    "requests",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
-    "pytest>=8.3.5",
+    "pre-commit",
+    "pyright",
+    "pytest",
+    "pytest-mock",
+    "pytest-watcher",
+    "pytest-xdist",
+    "ruff",
+    "validate-pyproject",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+addopts = ["--import-mode=importlib"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 119
+
+[tool.ruff.lint]
+select = [
+    "E",    # Pycodestyle errors
+    "W",    # Pycodestyle warnings
+    "F",    # Pyflakes
+    "I",    # isort
+    "FAST", # FastAPI
+    "RUF",  # RUF-specific rules
+    "SIM",  # Simplifications
+    "B",    # Bugbear
+    "ANN",  # Annotations
+    "PLC",  # Pylint convention
+    "PLE",  # Pylint errors
+    "UP",   # pyupgrade
+    "FURB", # refurb
+    "PT",   # pytest
+]
+ignore = [
+    "E501",   # line too long
+    "SIM108", # ternary operator
+    "SIM103", # return bool directly
+    "B008",   # function call in default argument (incompatible with FastAPI)
 ]

@@ -4,3 +4,5 @@
 __pycache__/
 .pytest_cache/
 .venv/
+.pre-commit-config.yaml
+.ruff_cache/

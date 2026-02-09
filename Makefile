@@ -1,35 +1,64 @@
-# Default input arguments
-port ?= 8000
-docker ?= docker
-image ?= public.ecr.aws/eodh/eodh-stac-validator
-version ?= 0.1.0
-
-.SILENT:
-MAKEFLAGS += --no-print-directory
+VERSION ?= latest
+IMAGENAME = eodh-stac-validator
+DOCKERREPO ?= public.ecr.aws/eodh
+uv-run ?= uv run --no-sync
 
 .PHONY: run-dev
 run-dev:
-	fastapi dev main.py --port=$(port)
+	${uv-run} fastapi dev main.py --port=8000
+
+.PHONY: dockerbuild
+dockerbuild:
+	DOCKER_BUILDKIT=1 docker build -t ${IMAGENAME}:${VERSION} .
+
+.PHONY: dockerpush
+dockerpush: dockerbuild
+	docker tag ${IMAGENAME}:${VERSION} ${DOCKERREPO}/${IMAGENAME}:${VERSION}
+	docker push ${DOCKERREPO}/${IMAGENAME}:${VERSION}
+
+.PHONY: dockerrun
+dockerrun: dockerbuild
+	docker run --rm -p 8000:8000 ${IMAGENAME}:${VERSION}
 
 .PHONY: test
 test:
-	python -m pytest -v .
+	${uv-run} ptw .
 
-.PHONY: requirements
-requirements:
-	uv export --no-dev -q -o requirements.txt
+.PHONY: testonce
+testonce:
+	${uv-run} pytest
 
-.PHONY: container-build
-container-build: requirements
-	$(docker) build -t $(image):$(version) .
+.git/hooks/pre-commit:
+	${uv-run} pre-commit install
+	curl -o .pre-commit-config.yaml https://raw.githubusercontent.com/EO-DataHub/github-actions/main/.pre-commit-config-python.yaml
 
-.PHONY: container-run
-container-run: container-build
-	$(docker) run --rm -p $(port):8000 $(image):$(version)
+.PHONY: setup
+setup: update .git/hooks/pre-commit
 
-.PHONY: container-push
-container-push:
-	$(docker) push $(image):$(version)
+.PHONY: pre-commit
+pre-commit:
+	${uv-run} pre-commit
 
-.PHONY: publish
-publish: container-build container-push
+.PHONY: pre-commit-all
+pre-commit-all:
+	${uv-run} pre-commit run --all-files
+
+.PHONY: check
+check:
+	${uv-run} ruff check
+	${uv-run} ruff format --check --diff
+	${uv-run} pyright
+	${uv-run} validate-pyproject pyproject.toml
+
+.PHONY: format
+format:
+	${uv-run} ruff check --fix
+	${uv-run} ruff format
+
+.PHONY: install
+install:
+	uv sync --frozen
+
+.PHONY: update
+update:
+	uv sync
