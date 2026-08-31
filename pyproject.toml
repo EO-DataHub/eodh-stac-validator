@@ -25,6 +25,7 @@ dev = [
 
 [tool.uv]
 package = false
+exclude-newer = "7 days"
 
 [tool.pytest.ini_options]
 addopts = ["--import-mode=importlib"]
